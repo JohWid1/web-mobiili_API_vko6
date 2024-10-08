@@ -5,6 +5,26 @@ import useRandomCard from './hooks/getRandomCard';
 const App = () => {
   const { card, loading, error, getRandomCard } = useRandomCard();
 
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.error}>
+        <Text>{error}</Text>
+        <Button title="Try Again" onPress={getRandomCard} />
+      </View>
+    );
+  }
+
+  if (!card) {
+    return <Text>No card data available</Text>;
+  }
 
   return (
     <View style={styles.container}>
@@ -47,7 +67,17 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginBottom: 10
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  error: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
   },
 });
 
