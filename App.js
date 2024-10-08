@@ -1,20 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View, Text, Image, StyleSheet, ActivityIndicator, Button } from 'react-native';
+import useRandomCard from './hooks/getRandomCard';
 
-export default function App() {
+const App = () => {
+  const { card, loading, error, getRandomCard } = useRandomCard();
+
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text style={styles.name}>{card.name}</Text>
+      {card.image_uris && (
+        <Image
+          source={{ uri: card.image_uris.normal }}
+          style={styles.cardImage}
+          resizeMode="contain"
+        />
+      )}
+      <Text style={styles.type}>{card.type_line}</Text>
+      <Text style={styles.text}>{card.oracle_text}</Text>
+      <Button title="Random card" onPress={getRandomCard} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  cardImage: {
+    width: 300,
+    height: 420,
+    marginBottom: 10,
+  },
+  type: {
+    fontSize: 18,
+    fontStyle: 'italic',
+    marginBottom: 10,
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 10
   },
 });
+
+export default App;
